@@ -51,32 +51,38 @@ public class Log {
         out.print("] ");
     }
 
-    public static void message(Class classId, PrintStream out, LogLevel level, String message) {
+    public static void message(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
+        if (level == LogLevel.DEBUG && !debug)
+            return;
         header(out, level, classId);
         out.println(message);
     }
 
-    public static void message(Class classId, String message) {
-        message(classId, System.out, LogLevel.DEBUG, message);
+    public static void message(Class classId, boolean debug, String message) {
+        message(classId, debug, System.out, LogLevel.DEBUG, message);
     }
 
-    public static void startMessage(Class classId, PrintStream out, LogLevel level, String message) {
+    public static void startMessage(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
+        if (level == LogLevel.DEBUG && !debug)
+            return;
         header(out, level, classId);
         out.print(message);
         out.println("...");
     }
 
-    public static void startMessage(Class classId, String message) {
-        startMessage(classId, System.out, LogLevel.DEBUG, message);
+    public static void startMessage(Class classId, boolean debug, String message) {
+        startMessage(classId, debug, System.out, LogLevel.DEBUG, message);
     }
 
-    public static void endMessage(Class classId, PrintStream out, LogLevel level, LogStatus status, String message) {
+    public static void endMessage(Class classId, boolean debug, PrintStream out, LogLevel level, LogStatus status, String message) {
+        if (level == LogLevel.DEBUG && !debug)
+            return;
         header(out, level, classId);
         out.print(status.getText());
         out.println(message);
     }
 
-    public static void endMessage(Class classId, LogStatus status, String message) {
-        endMessage(classId, System.out, LogLevel.DEBUG, status, message);
+    public static void endMessage(Class classId, boolean debug, LogStatus status, String message) {
+        endMessage(classId, debug, System.out, LogLevel.DEBUG, status, message);
     }
 }

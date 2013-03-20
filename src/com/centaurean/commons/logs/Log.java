@@ -66,6 +66,10 @@ public class Log {
         message(classId, debug, System.out, LogLevel.DEBUG, message);
     }
 
+    public static void message(Class classId, Exception exception) {
+        message(classId, false, System.out, LogLevel.ERROR, exception.getMessage());
+    }
+
     public static void startMessage(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
         if (level == LogLevel.DEBUG && !debug)
             return;
@@ -88,5 +92,9 @@ public class Log {
 
     public static void endMessage(Class classId, boolean debug, LogStatus status, String message) {
         endMessage(classId, debug, System.out, LogLevel.DEBUG, status, message);
+    }
+
+    public static void endMessage(Class classId, boolean debug, LogStatus status) {
+        endMessage(classId, debug, System.out, LogLevel.DEBUG, status, "");
     }
 }

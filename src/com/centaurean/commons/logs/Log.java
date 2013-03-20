@@ -58,6 +58,10 @@ public class Log {
         out.println(message);
     }
 
+    public static void message(Class classId, boolean debug, LogLevel level, String message) {
+        message(classId, debug, System.out, level, message);
+    }
+
     public static void message(Class classId, boolean debug, String message) {
         message(classId, debug, System.out, LogLevel.DEBUG, message);
     }

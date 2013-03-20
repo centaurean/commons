@@ -1,4 +1,4 @@
-package com.centaurean.commons.chronometer;
+package com.centaurean.commons.chronometers;
 
 /*
  * Copyright (c) 2013, Centaurean software
@@ -28,11 +28,11 @@ package com.centaurean.commons.chronometer;
  *
  * jetFlow
  *
- * 20/03/13 08:54
+ * 20/03/13 08:53
  * @author gpnuma
  */
-public class ChronometerAlreadyStartedException extends RuntimeException {
-    public ChronometerAlreadyStartedException() {
+public class ChronometerNotStartedException extends RuntimeException {
+    public ChronometerNotStartedException() {
         super();
     }
 }

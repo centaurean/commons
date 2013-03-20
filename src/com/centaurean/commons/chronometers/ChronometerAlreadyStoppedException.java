@@ -1,4 +1,4 @@
-package com.centaurean.commons.chronometer;
+package com.centaurean.commons.chronometers;
 
 /*
  * Copyright (c) 2013, Centaurean software

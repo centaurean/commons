@@ -1,4 +1,4 @@
-package com.centaurean.commons.chronometer;
+package com.centaurean.commons.chronometers;
 
 import java.util.concurrent.locks.ReentrantLock;
 

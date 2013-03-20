@@ -39,7 +39,7 @@ import java.util.List;
 public class HashList<K, E> extends Hashtable<K, List<E>> {
     private ArrayList<E> list;
 
-    protected HashList() {
+    public HashList() {
         super();
         list = new ArrayList<E>();
     }

@@ -46,9 +46,11 @@ public class Log {
     private static void header(PrintStream out, LogLevel level, Class classId) {
         out.print(dateTime());
         out.print(level.getText());
-        out.print("[");
-        out.print(classId.getCanonicalName());
-        out.print("] ");
+        if (classId != null) {
+            out.print("[");
+            out.print(classId.getCanonicalName());
+            out.print("] ");
+        }
     }
 
     public static void message(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
@@ -66,8 +68,28 @@ public class Log {
         message(classId, debug, System.out, LogLevel.DEBUG, message);
     }
 
+    public static void message(PrintStream out, LogLevel level, String message) {
+        message(null, false, out, level, message);
+    }
+
+    public static void message(PrintStream out, String message) {
+        message(out, LogLevel.INFO, message);
+    }
+
     public static void message(Class classId, Exception exception) {
-        message(classId, false, System.out, LogLevel.ERROR, exception.getMessage());
+        message(classId, false, System.err, LogLevel.ERROR, exception.getMessage());
+    }
+
+    public static void message(Exception exception) {
+        message(null, false, System.err, LogLevel.ERROR, exception.getMessage());
+    }
+
+    public static void message(boolean debug, String message) {
+        message(null, debug, message);
+    }
+
+    public static void message(String message) {
+        message(null, false, LogLevel.INFO, message);
     }
 
     public static void startMessage(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
@@ -78,8 +100,24 @@ public class Log {
         out.println("...");
     }
 
+    public static void startMessage(Class classId, boolean debug, LogLevel level, String message) {
+        startMessage(classId, debug, System.out, level, message);
+    }
+
     public static void startMessage(Class classId, boolean debug, String message) {
         startMessage(classId, debug, System.out, LogLevel.DEBUG, message);
+    }
+
+    public static void startMessage(Class classId, String message) {
+        startMessage(classId, false, LogLevel.INFO, message);
+    }
+
+    public static void startMessage(boolean debug, String message) {
+        startMessage(null, debug, message);
+    }
+
+    public static void startMessage(String message) {
+        startMessage(null, false, LogLevel.INFO, message);
     }
 
     public static void endMessage(Class classId, boolean debug, PrintStream out, LogLevel level, LogStatus status, String message) {
@@ -94,7 +132,19 @@ public class Log {
         endMessage(classId, debug, System.out, LogLevel.DEBUG, status, message);
     }
 
+    public static void endMessage(Class classId, boolean debug, LogLevel level, LogStatus status) {
+        endMessage(classId, debug, System.out, level, status, "");
+    }
+
     public static void endMessage(Class classId, boolean debug, LogStatus status) {
         endMessage(classId, debug, System.out, LogLevel.DEBUG, status, "");
+    }
+
+    public static void endMessage(boolean debug, LogStatus status) {
+        endMessage(null, debug, status);
+    }
+
+    public static void endMessage(LogStatus status) {
+        endMessage(null, false, LogLevel.INFO, status);
     }
 }

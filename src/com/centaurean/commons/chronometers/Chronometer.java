@@ -2,6 +2,8 @@ package com.centaurean.commons.chronometers;
 
 import java.util.concurrent.locks.ReentrantLock;
 
+import static com.centaurean.commons.chronometers.Precision.*;
+
 /*
  * Copyright (c) 2013, Centaurean software
  * All rights reserved.
@@ -47,10 +49,9 @@ public class Chronometer {
         return new Chronometer();
     }
 
-    private Chronometer() {
+    public Chronometer() {
         id = nextId();
-        started = false;
-        stopped = false;
+        reset();
     }
 
     private static int nextId() {
@@ -59,6 +60,12 @@ public class Chronometer {
         newId = nextId++;
         lock.unlock();
         return newId;
+    }
+
+    public Chronometer reset() {
+        started = false;
+        stopped = false;
+        return this;
     }
 
     public Chronometer start() {
@@ -101,6 +108,37 @@ public class Chronometer {
         return stop - start;
     }
 
+    private long extract(StringBuilder stringBuilder, long time, long part, String label) {
+        if (time > part) {
+            long quantity = time / part;
+            stringBuilder.append(quantity).append(label).append(" ");
+            time -= quantity * part;
+        }
+        return time;
+    }
+
+    public String toString(Precision precision) {
+        if (!started)
+            return "";
+        if (!stopped)
+            return "Running";
+        StringBuilder result = new StringBuilder();
+        long elapsed = elapsed();
+        if (precision.getValue() <= HOUR.getValue())
+            elapsed = extract(result, elapsed, HOUR.getValue(), HOUR.getLabel());
+        if (precision.getValue() <= MINUTE.getValue())
+            elapsed = extract(result, elapsed, MINUTE.getValue(), MINUTE.getLabel());
+        if (precision.getValue() <= SECOND.getValue())
+            elapsed = extract(result, elapsed, SECOND.getValue(), SECOND.getLabel());
+        if (precision.getValue() <= MILLISECOND.getValue())
+            elapsed = extract(result, elapsed, MILLISECOND.getValue(), MILLISECOND.getLabel());
+        if (precision.getValue() <= MICROSECOND.getValue())
+            elapsed = extract(result, elapsed, MICROSECOND.getValue(), MICROSECOND.getLabel());
+        if (precision.getValue() <= NANOSECOND.getValue())
+            extract(result, elapsed, NANOSECOND.getValue(), NANOSECOND.getLabel());
+        return result.toString();
+    }
+
     @Override
     public boolean equals(Object object) {
         if (object == null)
@@ -116,5 +154,10 @@ public class Chronometer {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return toString(Precision.NANOSECOND);
     }
 }

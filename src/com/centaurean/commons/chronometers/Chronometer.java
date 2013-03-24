@@ -136,7 +136,7 @@ public class Chronometer {
             elapsed = extract(result, elapsed, MICROSECOND.getValue(), MICROSECOND.getLabel());
         if (precision.getValue() <= NANOSECOND.getValue())
             extract(result, elapsed, NANOSECOND.getValue(), NANOSECOND.getLabel());
-        return result.toString();
+        return result.toString().trim();
     }
 
     @Override

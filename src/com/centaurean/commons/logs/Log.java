@@ -1,5 +1,7 @@
 package com.centaurean.commons.logs;
 
+import com.centaurean.commons.chronometers.Chronometer;
+
 import java.io.PrintStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,9 @@ import java.util.Date;
  */
 public class Log {
     private static final DateFormat dateFormat = new SimpleDateFormat("[yyyy-MM-dd HH:mm:ss:SSS] ");
+    private static final Chronometer chronometer = new Chronometer();
+    private static PrintStream defaultPrintStream = System.out;
+    private static PrintStream defaultErrPrintStream = System.err;
 
     private static String dateTime() {
         return dateFormat.format(new Date());
@@ -53,6 +58,14 @@ public class Log {
         }
     }
 
+    public static void setDefaultPrintStream(PrintStream printStream) {
+        defaultPrintStream = printStream;
+    }
+
+    public static void setDefaultErrPrintStream(PrintStream printStream) {
+        defaultErrPrintStream = printStream;
+    }
+
     public static void message(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
         if (level == LogLevel.DEBUG && !debug)
             return;
@@ -61,11 +74,11 @@ public class Log {
     }
 
     public static void message(Class classId, boolean debug, LogLevel level, String message) {
-        message(classId, debug, System.out, level, message);
+        message(classId, debug, defaultPrintStream, level, message);
     }
 
     public static void message(Class classId, boolean debug, String message) {
-        message(classId, debug, System.out, LogLevel.DEBUG, message);
+        message(classId, debug, defaultPrintStream, LogLevel.DEBUG, message);
     }
 
     public static void message(PrintStream out, LogLevel level, String message) {
@@ -77,11 +90,11 @@ public class Log {
     }
 
     public static void message(Class classId, Exception exception) {
-        message(classId, false, System.err, LogLevel.ERROR, exception.getMessage());
+        message(classId, false, defaultErrPrintStream, LogLevel.ERROR, exception.getMessage());
     }
 
     public static void message(Exception exception) {
-        message(null, false, System.err, LogLevel.ERROR, exception.getMessage());
+        message(null, false, defaultErrPrintStream, LogLevel.ERROR, exception.getMessage());
     }
 
     public static void message(boolean debug, String message) {
@@ -97,15 +110,16 @@ public class Log {
             return;
         header(out, level, classId);
         out.print(message);
-        out.println("...");
+        out.print("... ");
+        chronometer.start();
     }
 
     public static void startMessage(Class classId, boolean debug, LogLevel level, String message) {
-        startMessage(classId, debug, System.out, level, message);
+        startMessage(classId, debug, defaultPrintStream, level, message);
     }
 
     public static void startMessage(Class classId, boolean debug, String message) {
-        startMessage(classId, debug, System.out, LogLevel.DEBUG, message);
+        startMessage(classId, debug, defaultPrintStream, LogLevel.DEBUG, message);
     }
 
     public static void startMessage(Class classId, String message) {
@@ -120,31 +134,31 @@ public class Log {
         startMessage(null, false, LogLevel.INFO, message);
     }
 
-    public static void endMessage(Class classId, boolean debug, PrintStream out, LogLevel level, LogStatus status, String message) {
+    public static void endMessage(boolean debug, PrintStream out, LogLevel level, LogStatus status, String message) {
         if (level == LogLevel.DEBUG && !debug)
             return;
-        header(out, level, classId);
+        chronometer.stop();
         out.print(status.getText());
+        out.print("[");
+        out.print(chronometer.toString());
+        out.print("] ");
         out.println(message);
+        chronometer.reset();
     }
 
-    public static void endMessage(Class classId, boolean debug, LogStatus status, String message) {
-        endMessage(classId, debug, System.out, LogLevel.DEBUG, status, message);
+    public static void endMessage(boolean debug, LogStatus status, String message) {
+        endMessage(debug, defaultPrintStream, LogLevel.DEBUG, status, message);
     }
 
-    public static void endMessage(Class classId, boolean debug, LogLevel level, LogStatus status) {
-        endMessage(classId, debug, System.out, level, status, "");
-    }
-
-    public static void endMessage(Class classId, boolean debug, LogStatus status) {
-        endMessage(classId, debug, System.out, LogLevel.DEBUG, status, "");
+    public static void endMessage(boolean debug, LogLevel level, LogStatus status) {
+        endMessage(debug, defaultPrintStream, level, status, "");
     }
 
     public static void endMessage(boolean debug, LogStatus status) {
-        endMessage(null, debug, status);
+        endMessage(debug, defaultPrintStream, LogLevel.DEBUG, status, "");
     }
 
     public static void endMessage(LogStatus status) {
-        endMessage(null, false, LogLevel.INFO, status);
+        endMessage(false, LogLevel.INFO, status);
     }
 }

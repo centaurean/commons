@@ -49,4 +49,15 @@ public class Transform {
             result[count ++] = longElement;
         return result;
     }
+
+    public static String toHexArray(long[] longList) {
+        int count = longList.length;
+        StringBuilder stringBuilder = new StringBuilder("[");
+        for(long longElement : longList) {
+            stringBuilder.append("0x").append(Long.toHexString(longElement));
+            if(--count > 0)
+                stringBuilder.append(", ");
+        }
+        return stringBuilder.append("]").toString();
+    }
 }

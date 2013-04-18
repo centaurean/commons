@@ -26,7 +26,7 @@ package com.centaurean.commons.logs;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * jetFlow
+ * Commons
  *
  * 20/03/13 02:17
  * @author gpnuma

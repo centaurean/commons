@@ -26,7 +26,7 @@ package com.centaurean.commons.structures;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * jetFlow
+ * Commons
  *
  * 17/04/13 16:59
  * @author gpnuma

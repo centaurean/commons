@@ -26,7 +26,7 @@ package com.centaurean.commons.chronometers;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * jetFlow
+ * Commons
  *
  * 21/03/13 19:54
  * @author gpnuma

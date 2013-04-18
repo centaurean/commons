@@ -28,7 +28,7 @@ import java.util.Collection;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * jetFlow
+ * Commons
  *
  * 25/03/13 16:31
  * @author gpnuma

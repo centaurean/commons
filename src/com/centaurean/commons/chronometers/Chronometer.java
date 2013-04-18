@@ -30,7 +30,7 @@ import static com.centaurean.commons.chronometers.Precision.*;
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * jetFlow
+ * Commons
  *
  * 20/03/13 08:49
  * @author gpnuma

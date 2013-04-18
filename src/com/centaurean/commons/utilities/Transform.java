@@ -34,7 +34,7 @@ import java.util.Collection;
  * @author gpnuma
  */
 public class Transform {
-    public static int[] toArray(Collection<Integer> integersList) {
+    public static int[] toIntArray(Collection<Integer> integersList) {
         int count = 0;
         int[] result = new int[integersList.size()];
         for (Integer integerElement : integersList)
@@ -42,7 +42,7 @@ public class Transform {
         return result;
     }
 
-    public static long[] toArray(Collection<Long> longList) {
+    public static long[] toLongArray(Collection<Long> longList) {
         int count = 0;
         long[] result = new long[longList.size()];
         for (Long longElement : longList)
@@ -50,7 +50,7 @@ public class Transform {
         return result;
     }
 
-    public static byte[] toArray(String hexString) {
+    public static byte[] toByteArray(String hexString) {
         int length = hexString.length();
         byte[] data = new byte[length >> 1];
         for (int i = 0; i < length; i += 2)
@@ -58,7 +58,7 @@ public class Transform {
         return data;
     }
 
-    public static String toHex(byte[] bytes) {
+    public static String toHexString(byte[] bytes) {
         final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
         char[] hexChars = new char[bytes.length << 1];
         int index;

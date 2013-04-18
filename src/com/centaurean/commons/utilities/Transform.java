@@ -37,27 +37,36 @@ public class Transform {
     public static int[] toArray(Collection<Integer> integersList) {
         int count = 0;
         int[] result = new int[integersList.size()];
-        for(Integer integerElement : integersList)
-            result[count ++] = integerElement;
+        for (Integer integerElement : integersList)
+            result[count++] = integerElement;
         return result;
     }
 
     public static long[] toArray(Collection<Long> longList) {
         int count = 0;
         long[] result = new long[longList.size()];
-        for(Long longElement : longList)
-            result[count ++] = longElement;
+        for (Long longElement : longList)
+            result[count++] = longElement;
         return result;
     }
 
-    public static String toHexArray(long[] longList) {
-        int count = longList.length;
-        StringBuilder stringBuilder = new StringBuilder("[");
-        for(long longElement : longList) {
-            stringBuilder.append("0x").append(Long.toHexString(longElement));
-            if(--count > 0)
-                stringBuilder.append(", ");
+    public static byte[] toArray(String hexString) {
+        int length = hexString.length();
+        byte[] data = new byte[length >> 1];
+        for (int i = 0; i < length; i += 2)
+            data[i >> 1] = (byte) ((Character.digit(hexString.charAt(i), 16) << 4) + Character.digit(hexString.charAt(i + 1), 16));
+        return data;
+    }
+
+    public static String toHex(byte[] bytes) {
+        final char[] hexArray = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char[] hexChars = new char[bytes.length << 1];
+        int index;
+        for (int i = 0; i < bytes.length; i++) {
+            index = bytes[i] & 0xFF;
+            hexChars[i << 1] = hexArray[index >>> 4];
+            hexChars[(i << 1) + 1] = hexArray[index & 0x0F];
         }
-        return stringBuilder.append("]").toString();
+        return new String(hexChars);
     }
 }

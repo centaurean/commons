@@ -109,6 +109,10 @@ public class Log {
         message(null, false, LogLevel.INFO, object.toString());
     }
 
+    public static void message() {
+        message("");
+    }
+
     public static void startMessage(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
         if (level == LogLevel.DEBUG && !debug)
             return;

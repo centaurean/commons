@@ -70,7 +70,18 @@ public class Log {
         if (level == LogLevel.DEBUG && !debug)
             return;
         header(out, level, classId);
-        out.println(message);
+        for (int index = 0; index < message.length(); index++) {
+            char current = message.charAt(index);
+            switch (current) {
+                case '\n':
+                    out.print(' ');
+                    break;
+                default:
+                    out.print(current);
+                    break;
+            }
+        }
+        out.println();
     }
 
     public static void message(Class classId, boolean debug, LogLevel level, String message) {

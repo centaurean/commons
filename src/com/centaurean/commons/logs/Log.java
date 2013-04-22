@@ -58,6 +58,10 @@ public class Log {
         }
     }
 
+    public static void reset() {
+        chronometer.reset();
+    }
+
     public static void setDefaultPrintStream(PrintStream printStream) {
         defaultPrintStream = printStream;
     }
@@ -67,6 +71,7 @@ public class Log {
     }
 
     public static void message(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
+        out.println();
         if (level == LogLevel.DEBUG && !debug)
             return;
         header(out, level, classId);
@@ -81,7 +86,6 @@ public class Log {
                     break;
             }
         }
-        out.println();
     }
 
     public static void message(Class classId, boolean debug, LogLevel level, String message) {
@@ -125,6 +129,7 @@ public class Log {
     }
 
     public static void startMessage(Class classId, boolean debug, PrintStream out, LogLevel level, String message) {
+        out.println();
         if (level == LogLevel.DEBUG && !debug)
             return;
         header(out, level, classId);
@@ -161,7 +166,7 @@ public class Log {
         out.print("[");
         out.print(chronometer.toString());
         out.print("] ");
-        out.println(message);
+        out.print(message);
         chronometer.reset();
     }
 

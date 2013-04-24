@@ -58,8 +58,8 @@ public class Log {
         }
     }
 
-    public static void reset() {
-        chronometer.reset();
+    public static Chronometer chronometer() {
+        return chronometer;
     }
 
     public static void setDefaultPrintStream(PrintStream printStream) {
@@ -135,6 +135,7 @@ public class Log {
         header(out, level, classId);
         out.print(message);
         out.print("... ");
+        chronometer.reset();
         chronometer.start();
     }
 
@@ -167,7 +168,6 @@ public class Log {
         out.print(chronometer.toString());
         out.print("] ");
         out.print(message);
-        chronometer.reset();
     }
 
     public static void endMessage(boolean debug, LogStatus status, String message) {

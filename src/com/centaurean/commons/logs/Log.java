@@ -78,6 +78,9 @@ public class Log {
         for (int index = 0; index < message.length(); index++) {
             char current = message.charAt(index);
             switch (current) {
+                case '\r':
+                    out.print(' ');
+                    break;
                 case '\n':
                     out.print(' ');
                     break;

@@ -26,50 +26,30 @@
  *
  * Commons
  *
- * 03/05/13 12:02
+ * 03/05/13 20:53
  * @author gpnuma
  */
 
-#ifndef CPU_INFO_H
-#define CPU_INFO_H
+#ifndef CHRONO_H
+#define CHRONO_H
 
+#include <time.h>
 #include <iostream>
 #include <string>
 
-#ifdef _WIN32
-#include <intrin.h>
-typedef unsigned __int32  uint32_t;
-#else
-#include <stdint.h>
-#endif
-
-class CpuInfo {
+class Chrono {
 private:
-    uint32_t* data;
-    std::string vendor_id;
-    bool x64, mmx, sse, sse2, sse3, ssse3, sse41, sse42, sse4a, avx, xop, fma3, fma4, aesni;
+	bool isRunning;
+	time_t startTime;
+	time_t elapsedTime;
 
-    static void requestCpuid(unsigned int, uint32_t*);
-    static bool bitTest(uint32_t, unsigned int);
 public:
-    CpuInfo();
-    ~CpuInfo();
+    Chrono();
+    ~Chrono();
 
-    std::string getVendorId();
-    bool getX64();
-    bool getMmx();
-    bool getSse();
-    bool getSse2();
-    bool getSse3();
-    bool getSsse3();
-    bool getSse41();
-    bool getSse42();
-    bool getSse4a();
-    bool getAvx();
-    bool getXop();
-    bool getFma3();
-    bool getFma4();
-    bool getAesNI();
+    void start();
+	void stop();
+	unsigned int getElapsedMillis();
 };
 
 #endif

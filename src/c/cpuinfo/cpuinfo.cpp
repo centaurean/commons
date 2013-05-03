@@ -49,9 +49,9 @@ CpuInfo::CpuInfo() {
     data = new uint32_t[4];
 
     requestCpuid(0x0, data);
-    vendor_id.append(string((const char *)&data[1], 4));
-    vendor_id.append(string((const char *)&data[3], 4));
-    vendor_id.append(string((const char *)&data[2], 4));
+    vendor_id.append(std::string((const char *)&data[1], 4));
+    vendor_id.append(std::string((const char *)&data[3], 4));
+    vendor_id.append(std::string((const char *)&data[2], 4));
 
     requestCpuid(0x1, data);
     uint32_t ids = data[0];
@@ -83,7 +83,7 @@ CpuInfo::~CpuInfo() {
     delete[] data;
 }
 
-string CpuInfo::getVendorId() {
+std::string CpuInfo::getVendorId() {
     return vendor_id;
 }
 
@@ -143,11 +143,11 @@ bool CpuInfo::getAesNI() {
     return aesni;
 }
 
-int main(int argc, char *argv[]) {
+/*int main(int argc, char *argv[]) {
     CpuInfo* cpuInfo = new CpuInfo();
 
-    cout << "CPU vendor id = " << cpuInfo->getVendorId() << endl;
-    string features = cpuInfo->getMmx() ? "mmx " : "";
+    std::cout << "CPU vendor id = " << cpuInfo->getVendorId() << std::endl;
+    std::string features = cpuInfo->getMmx() ? "mmx " : "";
     features += cpuInfo->getSse() ? "sse " : "";
     features += cpuInfo->getSse2() ? "sse2 " : "";
     features += cpuInfo->getSse3() ? "sse3 " : "";
@@ -161,8 +161,8 @@ int main(int argc, char *argv[]) {
     features += cpuInfo->getFma4() ? "fma4 " : "";
     features += cpuInfo->getXop() ? "xop " : "";
     features += cpuInfo->getAesNI() ? "aesni " : "";
-    cout << "CPU features = " << features << endl;
+    std::cout << "CPU features = " << features << std::endl;
 
     delete cpuInfo;
-}
+}*/
 

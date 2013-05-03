@@ -26,50 +26,47 @@
  *
  * Commons
  *
- * 03/05/13 12:02
+ * 03/05/13 20:53
  * @author gpnuma
  */
 
-#ifndef CPU_INFO_H
-#define CPU_INFO_H
+#include "chrono.h"
 
-#include <iostream>
-#include <string>
+Chrono::Chrono() {
+}
 
-#ifdef _WIN32
-#include <intrin.h>
-typedef unsigned __int32  uint32_t;
-#else
-#include <stdint.h>
-#endif
+Chrono::~Chrono() {
+}
 
-class CpuInfo {
-private:
-    uint32_t* data;
-    std::string vendor_id;
-    bool x64, mmx, sse, sse2, sse3, ssse3, sse41, sse42, sse4a, avx, xop, fma3, fma4, aesni;
+void Chrono::start() {
+	startTime = clock();
+	isRunning = true;
+}
 
-    static void requestCpuid(unsigned int, uint32_t*);
-    static bool bitTest(uint32_t, unsigned int);
-public:
-    CpuInfo();
-    ~CpuInfo();
+void Chrono::stop() {
+	if (isRunning) {
+		elapsedTime = clock();
+		elapsedTime = elapsedTime - startTime;
+		isRunning = false;
+	}
+}
 
-    std::string getVendorId();
-    bool getX64();
-    bool getMmx();
-    bool getSse();
-    bool getSse2();
-    bool getSse3();
-    bool getSsse3();
-    bool getSse41();
-    bool getSse42();
-    bool getSse4a();
-    bool getAvx();
-    bool getXop();
-    bool getFma3();
-    bool getFma4();
-    bool getAesNI();
-};
+unsigned int Chrono::getElapsedMillis() {
+	if (isRunning) {
+		elapsedTime = clock();
+		elapsedTime = elapsedTime - startTime;
+	} 
+	return (unsigned int)((1000 * elapsedTime) / CLOCKS_PER_SEC);
+}
 
-#endif
+int main(int argc, char *argv[]) {
+    Chrono* chrono = new Chrono();
+
+	chrono->start();
+	for(unsigned int i = 0; i < 1024 * 1024 * 512; i ++);
+	chrono->stop();
+
+    std::cout << "Time = " << chrono->getElapsedMillis() << "ms" << std::endl;
+
+    delete chrono;
+}

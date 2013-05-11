@@ -30,7 +30,7 @@
  * @author gpnuma
  */
 
-#include "cpuinfo.h"
+#include "CpuInfo.h"
 
 void CpuInfo::requestCpuid(unsigned int instruction, uint32_t* data) {
 #ifdef _WIN32

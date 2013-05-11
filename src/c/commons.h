@@ -33,7 +33,14 @@
 #ifndef COMMONS_H
 #define COMMONS_H
 
-#include "cpuinfo/cpuinfo.h"
-#include "chrono/chrono.h"
+#include "cpuinfo/CpuInfo.h"
+#include "chrono/Chrono.h"
+#include "io/BitWriter.h"
+
+#if defined(_MSC_VER)
+#define FORCE_INLINE    __forceinline
+#else
+#define FORCE_INLINE __attribute__((always_inline))
+#endif
 
 #endif

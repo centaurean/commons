@@ -59,7 +59,7 @@ unsigned int Chrono::getElapsedMillis() {
 	return (unsigned int)((1000 * elapsedTime) / CLOCKS_PER_SEC);
 }
 
-int main(int argc, char *argv[]) {
+/*int main(int argc, char *argv[]) {
     Chrono* chrono = new Chrono();
 
 	chrono->start();
@@ -69,4 +69,4 @@ int main(int argc, char *argv[]) {
     std::cout << "Time = " << chrono->getElapsedMillis() << "ms" << std::endl;
 
     delete chrono;
-}
+}*/

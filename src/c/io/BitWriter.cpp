@@ -26,51 +26,90 @@
  *
  * Commons
  *
- * 03/05/13 12:02
+ * 12/05/13 00:05
  * @author gpnuma
  */
 
-#ifndef CPU_INFO_H
-#define CPU_INFO_H
+#include "BitWriter.h"
 
-#include <iostream>
-#include <string>
+BitWriter::BitWriter(std::ofstream* outFileStream) {
+    this->outFileStream = outFileStream;
+	buffer = new byte[BUFFER_SIZE];
+	resetState();
+	resetBuffer();
+	bitsWritten = 0;
+}
 
-#ifdef _WIN32
-#include <intrin.h>
-#include <stdint.h>
-//typedef unsigned __int32  uint32_t;
-#else
-#include <stdint.h>
-#endif
+BitWriter::~BitWriter() {
+	delete[] buffer;
+}
 
-class CpuInfo {
-private:
-    uint32_t* data;
-    std::string vendor_id;
-    bool x64, mmx, sse, sse2, sse3, ssse3, sse41, sse42, sse4a, avx, xop, fma3, fma4, aesni;
+void BitWriter::write(bool bit) {
+	currentByte |= bit << (7 - state);
+	state ++;
+	switch(state) {
+	case 8:
+		addToBuffer(currentByte);
+		resetState();
+		break;
+	}
+	bitsWritten ++;
+}
 
-    static void requestCpuid(unsigned int, uint32_t*);
-    static bool bitTest(uint32_t, unsigned int);
-public:
-    CpuInfo();
-    ~CpuInfo();
+void BitWriter::write(unsigned short value) {
+	currentByte |= value >> (8 + state);
+	addToBuffer(currentByte);
 
-    std::string getVendorId();
-    bool getX64();
-    bool getMmx();
-    bool getSse();
-    bool getSse2();
-    bool getSse3();
-    bool getSsse3();
-    bool getSse41();
-    bool getSse42();
-    bool getSse4a();
-    bool getAvx();
-    bool getXop();
-    bool getFma3();
-    bool getFma4();
-    bool getAesNI();
-};
+	currentByte = (value >> state) & 0xFFFFFFFF;
+	addToBuffer(currentByte);
 
-#endif
+	currentByte = (value << (8 - state)) & 0xFFFFFFFF;
+	bitsWritten += 16;
+}
+
+void BitWriter::write(unsigned int value) {
+	currentByte |= value >> (24 + state);
+	addToBuffer(currentByte);
+
+	currentByte = (value >> (16 + state)) & 0xFFFFFFFF;
+	addToBuffer(currentByte);
+
+	currentByte = (value >> (8 + state)) & 0xFFFFFFFF;
+	addToBuffer(currentByte);
+
+	currentByte = (value >> state) & 0xFFFFFFFF;
+	addToBuffer(currentByte);
+
+	currentByte = (value << (8 - state)) & 0xFFFFFFFF;
+	bitsWritten += 32;
+}
+
+void BitWriter::resetState() {
+	currentByte = 0;
+	state = 0;
+}
+
+void BitWriter::resetBuffer() {
+	position = 0;
+}
+
+byte* BitWriter::flush() {
+	outFileStream->write((char*)buffer, position);
+	resetBuffer();
+	return &currentByte;
+}
+
+void BitWriter::addToBuffer(byte aByte) {
+	buffer[position] = aByte;
+	position ++;
+	switch(position) {
+	case BUFFER_SIZE:
+		flush();
+		break;
+	}
+}
+
+unsigned long BitWriter::getBitsWritten() {
+	return bitsWritten;
+}
+

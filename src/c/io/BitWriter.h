@@ -37,7 +37,7 @@
 #include <fstream>
 #include <string>
 
-#define BUFFER_SIZE 65536
+#define BUFFER_SIZE (1 << 26)
 
 typedef unsigned char byte;
 
